@@ -16,7 +16,6 @@ from 'mdb-react-ui-kit';
 export default function Login() {
   return (
     <MDBContainer fluid>
-
       <MDBRow className='d-flex justify-content-center align-items-center h-100'>
         <MDBCol col='12'>
           <MDBCard className='bg-white my-5 mx-auto' style={{borderRadius: '1rem', maxWidth: '500px'}}>
@@ -30,7 +29,7 @@ export default function Login() {
 
               <MDBCheckbox name='flexCheck' id='flexCheckDefault' className='mb-4' label='Recordar Contraseña' />
 
-              <MDBBtn size='lg' href="/horario">
+              <MDBBtn size='lg' href="/reserva">
                 Ingresar
               </MDBBtn>
             </MDBCardBody>
