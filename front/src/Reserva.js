@@ -8,12 +8,9 @@ import {
   MDBCard,
   MDBCardBody,
   MDBInput,
-  //MDBIcon,
-  MDBCheckbox
 }
   from 'mdb-react-ui-kit';
 import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
 
 export default function Reserva() {
   return (
@@ -55,11 +52,10 @@ export default function Reserva() {
               <MDBInput wrapperClass='mb-4 w-100' label='Email' id='formControlLg' type='email' size="lg" />
               <MDBInput wrapperClass='mb-4 w-100' label='Telefono' id='formControlLg' type='email' size="lg" />
               <MDBInput wrapperClass='mb-4 w-100' label='Carrera' id='formControlLg' type='email' size="lg" />
-              <InputGroup>
-                <Form.Control as="textarea" aria-label="With textarea" wrapperClass='mb-6 w-100'/>
-              </InputGroup>
-
-              <MDBCheckbox name='flexCheck' id='flexCheckDefault' className='mb-4' label='Estas de acuerdo con las condiciones' />
+              <Form.Group className="mb-3">
+              <Form.Label>Lista de Participantes</Form.Label>
+              <Form.Control as="textarea" aria-label="With textarea" wrapperClass='mb-6 w-100' />
+              </Form.Group>
 
               <MDBBtn size='lg' href="/horario">
                 Ingresar
