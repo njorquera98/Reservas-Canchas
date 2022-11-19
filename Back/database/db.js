@@ -1,8 +1,9 @@
-import { Sequelize } from "sequelize";
+import { createPool } from "mysql2/promise";
 
-const db = new Sequelize('reservas-canchas', 'root', '',{
-    host: 'localhost',
-    dialect: 'mysql',
-})
-
-export default db
+export const pool = createPool({
+    host:'localhost',
+    user:'root',
+    password:'',
+    port: 3306,
+    database:'reservascanchas',
+});
