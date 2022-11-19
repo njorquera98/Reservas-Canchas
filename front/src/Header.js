@@ -1,17 +1,21 @@
 import React, { Component } from "react";
+import uta from "./img/uta.png"
 
 class Header extends Component {
     render(){
         return(
             <React.Fragment>
-                <a href="/">
+                <div href="/">
                     <h1>test</h1>
-                </a>
+                    <img src = {uta} ></img>
+                </div>
                 <h1>Administracion de recintos deportivos</h1>
-                <a href="/admin">
+                <div href="/admin">
                     <h1>test2</h1>
-                </a>
+                </div>
             </React.Fragment>
         );
     }
 }
+
+export default Header;
