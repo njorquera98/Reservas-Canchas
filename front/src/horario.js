@@ -14,10 +14,6 @@ export default function Horario() {
   const [loading, setLoading] = useState(false);
   const [datos,setDatos] = useState([]);
 
- /*  function obtenerDatos (dat){
-    datos=dat;
-    console.log(datos)
-  } */
   useEffect(() => {
       setLoading(true)
       console.log('fetch')

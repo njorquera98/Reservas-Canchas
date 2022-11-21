@@ -11,12 +11,11 @@ import {
   MDBCheckbox
 }
 from 'mdb-react-ui-kit';
-import { useState } from 'react';
-import { useEffect } from 'react';
 
-export default function Login() {
+export default function Register() {
   const data={
     id_usuario: '',
+    correo: '',
     contrasena: ''
   }
 
@@ -25,37 +24,23 @@ export default function Login() {
           data.id_usuario=e.target.value
           console.log(data);
       }
-      /* if (e.target.name ==='correo'){
+      if (e.target.name ==='correo'){
           data.correo=e.target.value
-      } */
+      }
       if (e.target.name ==='contrasena'){
           data.contrasena=e.target.value
       }
 
   }
-  
-  const [datos,setDatos] = useState([]);
-  const [loading, setLoading] = useState(false);
-
 
   const handleSubmit = async() =>{
-    setLoading(true)
-      console.log("submit",data)
-      await fetch('http://localhost:4000/api/users/'+data.id_usuario)
-      .then(response => response.json())
-      .then(dat =>{ 
-        console.log('resultado',dat)
-        console.log('escrito',data)
-        if (dat.Contrasena===data.contrasena) {
-          console.log('contrasenacorrecta')
-          window.location.href='/reserva'
-
-        }
-        else{
-          alert('Usuario y/o contraseña incorrecta')
-        }
-    });
-  
+      await fetch('http://localhost:4000/api/users', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+      })
   }
   return (
     <MDBContainer fluid>
@@ -64,16 +49,15 @@ export default function Login() {
           <MDBCard className='bg-white my-5 mx-auto' style={{borderRadius: '1rem', maxWidth: '500px'}}>
             <MDBCardBody className='p-5 w-100 d-flex flex-column'>
 
-              <h2 className="fw-bold mb-2 text-center">Inicio de Sesión</h2>
-              <p className="text-white-50 mb-3">Porfavor ingrese su Usuario y Contraseña!</p>
+              <h2 className="fw-bold mb-2 text-center">Registrarse</h2>
+              <p className="text-white-50 mb-3">Porfavor ingrese su Email y Contraseña!</p>
 
               <MDBInput wrapperClass='mb-4 w-100' label='Usuario' id='formControlLg' name="nombre" type='email' size="lg" onChange={handleChange}/>
+              <MDBInput wrapperClass='mb-4 w-100' label='Email' id='formControlLg' name="correo" type='email' size="lg" onChange={handleChange}/>
               <MDBInput wrapperClass='mb-4 w-100' label='Contraseña' id='formControlLg' name="contrasena" type='password' size="lg" onChange={handleChange}/>
 
-              <MDBCheckbox name='flexCheck' id='flexCheckDefault' className='mb-4' label='Recordar Contraseña' />
-
-              <MDBBtn onClick={handleSubmit} size='lg' href="#">
-                Ingresar
+              <MDBBtn onClick={handleSubmit} size='lg' href="/">
+                Registrarse
               </MDBBtn>
             </MDBCardBody>
           </MDBCard>
