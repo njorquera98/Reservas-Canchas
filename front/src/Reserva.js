@@ -121,7 +121,7 @@ function seleccionaHoraTermino(horainicio){
               <Form.Control as="textarea" aria-label="With textarea" name="listaParticipantes" wrapperClass='mb-6 w-100' onChange={handleChange}/>
               </Form.Group>
 
-              <MDBBtn size='lg' onClick={handleSubmit}/* href="/horario" */>
+              <MDBBtn size='lg' onClick={handleSubmit} href="/horario">
                 Ingresar
               </MDBBtn>
             </MDBCardBody>

@@ -1,7 +1,7 @@
 import { pool } from "../database/db.js";
 
 export const getReservas = async (req, res) => {
-  const [rows] = await pool.query("SELECT * FROM reservas");
+  const [rows] = await pool.query("SELECT nombre AS title,startDate,endDate FROM reservas");
   res.json(rows);
 };
 
