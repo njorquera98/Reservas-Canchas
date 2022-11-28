@@ -50,7 +50,7 @@ function App() {
                               <MDBNavbarLink href='/horario'>Horarios</MDBNavbarLink>
                           </MDBNavbarItem>
                           <MDBNavbarItem>
-                              <MDBNavbarLink href='/register'>Rergistarse</MDBNavbarLink>
+                              <MDBNavbarLink href='/register'>Registarse</MDBNavbarLink>
                           </MDBNavbarItem>
                         </MDBNavbarNav>
                     </MDBCollapse>
