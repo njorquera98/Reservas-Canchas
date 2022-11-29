@@ -52,6 +52,9 @@ function App() {
                           <MDBNavbarItem>
                               <MDBNavbarLink href='/register'>Registarse</MDBNavbarLink>
                           </MDBNavbarItem>
+                          <MDBNavbarItem>
+                              <MDBNavbarLink href='/admin/reservas'>Administrar reservas</MDBNavbarLink>
+                          </MDBNavbarItem>
                         </MDBNavbarNav>
                     </MDBCollapse>
           </MDBContainer>

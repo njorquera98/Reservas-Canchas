@@ -4,6 +4,8 @@ import Horario from './horario';
 import Login from './Login';
 import Reserva from './Reserva'
 import Register from "./Register";
+import AdminReservas from "./AdminReservas";
+import EditarReserva from "./EditarReserva";
 
 class Router extends Component{
     render(){
@@ -14,6 +16,8 @@ class Router extends Component{
                     <Route path='/horario' element={<Horario/>}></Route>
                     <Route path='/reserva' element={<Reserva/>}></Route>
                     <Route path='/register' element={<Register/>}></Route>
+                    <Route path='/admin/reservas' element={<AdminReservas/>}></Route>
+                    <Route path='/admin/editarreserva' element={<EditarReserva/>}></Route>
                 </Routes>
             </BrowserRouter>
         );
