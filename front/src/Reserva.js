@@ -12,6 +12,18 @@ import {
   from 'mdb-react-ui-kit';
 import Form from 'react-bootstrap/Form';
 
+const fecha = new Date();
+var fechaSeleccion = new Date();
+
+function seleccion(fechaSeleccion,dia){
+  
+  while (fechaSeleccion.getDay().toString()!==dia) {
+    fechaSeleccion.setDate(fechaSeleccion.getDate()+1)
+  }
+}
+
+/* seleccion(fechaSeleccion,6) */
+
 export default function Reserva() {
   const data={
     "idusuario":"",
@@ -24,13 +36,11 @@ export default function Reserva() {
     "listaParticipantes":""
   }
 
-  /* const fecha = new Date();
-  const hoy = fecha.toISOString(); */
 
   const handleChange = e => {
     if (e.target.name ==='horaReserva'){
         seleccionaHoraTermino(e.target.value)
-        data.startDate="2022-11-24T"+e.target.value
+        data.startDate=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+"T"+e.target.value
         console.log(data);
     }
     if (e.target.name ==='nombre'){
@@ -48,7 +58,13 @@ export default function Reserva() {
     }
     if (e.target.name ==='listaParticipantes'){
       data.listaParticipantes=e.target.value
-  }
+    }
+    if(e.target.name ==='dia'){
+      fechaSeleccion= new Date()
+      seleccion(fechaSeleccion,e.target.value)
+      console.log(fecha,'actual')
+      console.log(fechaSeleccion,'seleccionada')
+    }
 
 }
 
@@ -66,14 +82,14 @@ const handleSubmit = async() =>{
 function seleccionaHoraTermino(horainicio){
   // eslint-disable-next-line default-case
   switch(horainicio){
-    case '08:00': data.endDate='2022-11-24T09:30'; break;
-    case '09:40': data.endDate='2022-11-24T11:10'; break;
-    case "11:20": data.endDate='2022-11-24T12:50'; break;
-    case "13:00": data.endDate='2022-11-24T14:30'; break;
-    case "14:45": data.endDate='2022-11-24T16:15'; break;
-    case "16:20": data.endDate='2022-11-24T15:50'; break;
-    case "17:55": data.endDate='2022-11-24T19:25'; break;
-    case "19:30": data.endDate='2022-11-24T21:00'; break;
+    case '08:00': data.endDate=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T09:30'; break;
+    case '09:40': data.endDate=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T11:10'; break;
+    case "11:20": data.endDate=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T12:50'; break;
+    case "13:00": data.endDate=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T14:30'; break;
+    case "14:45": data.endDate=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T16:15'; break;
+    case "16:20": data.endDate=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T15:50'; break;
+    case "17:55": data.endDate=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T19:25'; break;
+    case "19:30": data.endDate=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T21:00'; break;
   }
 
 }
@@ -88,7 +104,8 @@ function seleccionaHoraTermino(horainicio){
 
               <Form.Group className="mb-3">
                 <Form.Label>Seleccione Cancha</Form.Label>
-                <Form.Select name="cancha" >
+                <Form.Select name="cancha" defaultValue={""}>
+                <option value="" disabled></option>
                   <option value="cancha1">Cancha 1</option>
                   <option value="cancha2">Cancha 2</option>
                   <option value="cancha3">Cancha 3</option>
@@ -99,8 +116,22 @@ function seleccionaHoraTermino(horainicio){
               </Form.Group>
 
               <Form.Group className="mb-3">
+                <Form.Label>Seleccione Dia</Form.Label>
+                <Form.Select name="dia" onChange={handleChange} defaultValue={""}>
+                  <option value="" disabled></option>
+                  <option value="1">Lunes</option>
+                  <option value="2">Martes</option>
+                  <option value="3">Miercoles</option>
+                  <option value="4">Jueves</option>
+                  <option value="5">Viernes</option>
+                  <option value="6">Sabado</option>
+                </Form.Select>
+              </Form.Group>
+
+              <Form.Group className="mb-3">
                 <Form.Label>Seleccione Horario</Form.Label>
-                <Form.Select name="horaReserva" onChange={handleChange}>
+                <Form.Select name="horaReserva" onChange={handleChange} defaultValue={""}>
+                <option value="" disabled></option>
                   <option value="08:00">08:00 - 09:30</option>
                   <option value="09:40">09:40 - 11:10</option>
                   <option value="11:20">11:20 - 12:50</option>
