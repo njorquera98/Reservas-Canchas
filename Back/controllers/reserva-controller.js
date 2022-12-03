@@ -1,12 +1,17 @@
 import { pool } from "../database/db.js";
 
 export const getReservas = async (req, res) => {
-  const [rows] = await pool.query("SELECT nombre AS title,startDate,endDate FROM reservas");
+  const [rows] = await pool.query("SELECT u.nombre AS title,hora_entrada AS startDate,hora_salida AS endDate FROM reserva, usuario u WHERE user_ID_FK = u.user_ID");
+  res.json(rows);
+};
+
+export const listarReservas = async (req, res) => {
+  const [rows] = await pool.query("SELECT u.nombre,u.apellido, reserva_ID, hora_entrada ,hora_salida FROM reserva, usuario u WHERE user_ID_FK = u.user_ID");
   res.json(rows);
 };
 
 export const getReserva = async (req, res) => {
-  const [rows] = await pool.query("SELECT * FROM reservas WHERE idusuario = ?", [
+  const [rows] = await pool.query("SELECT * FROM reserva WHERE correo = ?", [
     req.params.id,
   ]);
   console.log([rows]);
@@ -20,18 +25,18 @@ export const getReserva = async (req, res) => {
 };
 
 export const createReserva = async (req, res) => {
-  const { idusuario,startDate,endDate,nombre,email,telefono,carrera,listaParticipantes} = req.body;
+  const { user_ID_FK, cancha_ID_FK, hora_entrada, hora_salida, fecha, participantes} = req.body;
 
   const [rows] = await pool.query(
-    "INSERT INTO reservas (idusuario,startDate,endDate,nombre,email,telefono,carrera,listaParticipantes) VALUES (?,?,?,?,?,?,?,?)",
-    [idusuario,startDate,endDate,nombre,email,telefono,carrera,listaParticipantes]
+    "INSERT INTO reserva (user_ID_FK, cancha_ID_FK, hora_entrada, hora_salida, fecha, participantes) VALUES (?,?,?,?,?,?)",
+    [user_ID_FK, cancha_ID_FK, hora_entrada, hora_salida, fecha, participantes]
   );
   console.log(req.body);
   res.send({ rows });
 };
 
 export const deleteReserva = async (req, res) => {
-  const [result] = await pool.query("DELETE FROM reservas WHERE idusuario = ?", [
+  const [result] = await pool.query("DELETE FROM reserva WHERE reserva_ID = ?", [
     req.params.id,
   ]);
   if (result.affectedRows <= 0)

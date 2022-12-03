@@ -7,10 +7,11 @@ import {
   MDBCol,
   MDBCard,
   MDBCardBody,
-  MDBInput,
 }
   from 'mdb-react-ui-kit';
 import Form from 'react-bootstrap/Form';
+import UserContext from './context/UserContext';
+import { useContext } from 'react';
 
 const fecha = new Date();
 var fechaSeleccion = new Date();
@@ -22,42 +23,31 @@ function seleccion(fechaSeleccion,dia){
   }
 }
 
-/* seleccion(fechaSeleccion,6) */
 
 export default function Reserva() {
+  const {id_usuariologeado} = useContext(UserContext)
+
   const data={
-    "idusuario":"",
-    "startDate":"",
-    "endDate":"",
-    "nombre":"",
-    "email":"",
-    "telefono":0,
-    "carrera":"",
-    "listaParticipantes":""
+    "user_ID_FK":id_usuariologeado,
+    "cancha_ID_FK":"",
+    "hora_entrada":"",
+    "hora_salida":"",
+    "fecha":fecha.toISOString(),
+    "participantes":""
   }
 
 
   const handleChange = e => {
     if (e.target.name ==='horaReserva'){
         seleccionaHoraTermino(e.target.value)
-        data.startDate=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+"T"+e.target.value
+        data.hora_entrada=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+"T"+e.target.value
         console.log(data);
     }
-    if (e.target.name ==='nombre'){
-        data.idusuario=e.target.value
-        data.nombre=e.target.value
+    if (e.target.name ==='participantes'){
+      data.participantes=e.target.value
     }
-    if (e.target.name ==='correo'){
-        data.email=e.target.value
-    }
-    if (e.target.name ==='telefono'){
-      data.telefono=e.target.value
-    }
-    if (e.target.name ==='carrera'){
-        data.carrera=e.target.value
-    }
-    if (e.target.name ==='listaParticipantes'){
-      data.listaParticipantes=e.target.value
+    if (e.target.name ==='cancha'){
+      data.cancha_ID_FK=e.target.value
     }
     if(e.target.name ==='dia'){
       fechaSeleccion= new Date()
@@ -82,14 +72,14 @@ const handleSubmit = async() =>{
 function seleccionaHoraTermino(horainicio){
   // eslint-disable-next-line default-case
   switch(horainicio){
-    case '08:00': data.endDate=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T09:30'; break;
-    case '09:40': data.endDate=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T11:10'; break;
-    case "11:20": data.endDate=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T12:50'; break;
-    case "13:00": data.endDate=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T14:30'; break;
-    case "14:45": data.endDate=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T16:15'; break;
-    case "16:20": data.endDate=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T15:50'; break;
-    case "17:55": data.endDate=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T19:25'; break;
-    case "19:30": data.endDate=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T21:00'; break;
+    case '08:00': data.hora_salida=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T09:30'; break;
+    case '09:40': data.hora_salida=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T11:10'; break;
+    case "11:20": data.hora_salida=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T12:50'; break;
+    case "13:00": data.hora_salida=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T14:30'; break;
+    case "14:45": data.hora_salida=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T16:15'; break;
+    case "16:20": data.hora_salida=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T15:50'; break;
+    case "17:55": data.hora_salida=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T19:25'; break;
+    case "19:30": data.hora_salida=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T21:00'; break;
   }
 
 }
@@ -104,14 +94,14 @@ function seleccionaHoraTermino(horainicio){
 
               <Form.Group className="mb-3">
                 <Form.Label>Seleccione Cancha</Form.Label>
-                <Form.Select name="cancha" defaultValue={""}>
+                <Form.Select name="cancha" onChange={handleChange} defaultValue={""}>
                 <option value="" disabled></option>
-                  <option value="cancha1">Cancha 1</option>
-                  <option value="cancha2">Cancha 2</option>
-                  <option value="cancha3">Cancha 3</option>
-                  <option value="cancha4">Cancha 4</option>
-                  <option value="cancha5">Cancha 5</option>
-                  <option value="cancha6">Cancha 6</option>
+                  <option value="1">Cancha 1</option>
+                  <option value="2">Cancha 2</option>
+                  <option value="3">Cancha 3</option>
+                  <option value="4">Cancha 4</option>
+                  <option value="5">Cancha 5</option>
+                  <option value="6">Cancha 6</option>
                 </Form.Select>
               </Form.Group>
 
@@ -143,13 +133,9 @@ function seleccionaHoraTermino(horainicio){
                 </Form.Select>
               </Form.Group>
 
-              <MDBInput wrapperClass='mb-4 w-100' label='Nombre' id='formControlLg' name="nombre" type='text' size="lg" onChange={handleChange}/>
-              <MDBInput wrapperClass='mb-4 w-100' label='Email' id='formControlLg' name="correo" type='email' size="lg" onChange={handleChange}/>
-              <MDBInput wrapperClass='mb-4 w-100' label='Telefono' id='formControlLg' name="telefono" type='email' size="lg" onChange={handleChange}/>
-              <MDBInput wrapperClass='mb-4 w-100' label='Carrera' id='formControlLg' name="carrera" type='email' size="lg" onChange={handleChange}/>
               <Form.Group className="mb-3">
               <Form.Label>Lista de Participantes</Form.Label>
-              <Form.Control as="textarea" aria-label="With textarea" name="listaParticipantes" wrapperClass='mb-6 w-100' onChange={handleChange}/>
+              <Form.Control as="textarea" aria-label="With textarea" name="participantes" wrapperClass='mb-6 w-100' onChange={handleChange}/>
               </Form.Group>
 
               <MDBBtn size='lg' onClick={handleSubmit} href="/horario">

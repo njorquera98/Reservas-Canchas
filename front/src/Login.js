@@ -19,18 +19,14 @@ export default function Login() {
   const {users, setUsers} = useContext(UserContext)
   const {rol, setRol} = useContext(RolContext)
   const data={
-    id_usuario: '',
+    correo: '',
     contrasena: ''
   }
 
   const handleChange = e => {
-      if (e.target.name ==='nombre'){
-          data.id_usuario=e.target.value
-          console.log(data);
-      }
-      /* if (e.target.name ==='correo'){
+      if (e.target.name ==='correo'){
           data.correo=e.target.value
-      } */
+      }
       if (e.target.name ==='contrasena'){
           data.contrasena=e.target.value
       }
@@ -44,15 +40,16 @@ export default function Login() {
   const handleSubmit = async() =>{
     setLoading(true)
       console.log("submit",data)
-      await fetch('http://localhost:4000/api/users/'+data.id_usuario)
+      await fetch('http://localhost:4000/api/users/'+data.correo)
       .then(response => response.json())
       .then(dat =>{ 
         console.log('resultado',dat)
         console.log('escrito',data)
-        if (dat.Contrasena===data.contrasena) {
+        if (dat.contrasena===data.contrasena) {
           console.log('contrasenacorrecta')
-          window.sessionStorage.setItem('users',data.id_usuario)
-          window.sessionStorage.setItem('rol',dat.Correo)
+          window.sessionStorage.setItem('users',dat.nombre)
+          window.sessionStorage.setItem('id_usuariologeado',dat.user_ID)
+          window.sessionStorage.setItem('rol',dat.rol)
           window.location.href='/reserva'
 
         }
@@ -72,7 +69,7 @@ export default function Login() {
               <h2 className="fw-bold mb-2 text-center">Inicio de Sesión</h2>
               <p className="text-white-50 mb-3">Porfavor ingrese su Usuario y Contraseña!</p>
 
-              <MDBInput wrapperClass='mb-4 w-100' label='Usuario' id='formControlLg' name="nombre" type='email' size="lg" onChange={handleChange}/>
+              <MDBInput wrapperClass='mb-4 w-100' label='Usuario' id='formControlLg' name="correo" type='email' size="lg" onChange={handleChange}/>
               <MDBInput wrapperClass='mb-4 w-100' label='Contraseña' id='formControlLg' name="contrasena" type='password' size="lg" onChange={handleChange}/>
 
               <MDBCheckbox name='flexCheck' id='flexCheckDefault' className='mb-4' label='Recordar Contraseña' />

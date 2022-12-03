@@ -10,7 +10,7 @@ export default function App() {
 
   useEffect(() => {
       console.log('fetch')
-      fetch('http://localhost:4000/api/users')
+      fetch('http://localhost:4000/api/listarreservas')
       .then(response => response.json())
       .then(data =>{setDatos((data));console.log(datos)});
   },[buttonClick])
@@ -21,7 +21,7 @@ export default function App() {
       }
   
   function deleteUser(id){
-    fetch('http://localhost:4000/api/users/'+id, {
+    fetch('http://localhost:4000/api/reservas/'+id, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -54,14 +54,14 @@ export default function App() {
                     className='rounded-circle'
                   />
                   <div className='ms-3'>
-                    <p className='fw-bold mb-1'>{dat.Nombre}</p>
-                    <p className='text-muted mb-0'>{dat.Correo}</p>
+                    <p className='fw-bold mb-1'>{dat.nombre}</p>
+                    <p className='text-muted mb-0'>{dat.apellido}</p>
                   </div>
                 </div>
               </td>
               <td>
-                <p className='fw-normal mb-1'>Designer</p>
-                <p className='text-muted mb-0'>UI/UX</p>
+                <p className='fw-normal mb-1'>{dat.hora_entrada}</p>
+                <p className='text-muted mb-0'>{dat.hora_salida}</p>
               </td>
               <td>
                 <MDBBadge color='warning' pill>
@@ -75,7 +75,7 @@ export default function App() {
                 </MDBBtn>
               </td>
               <td>
-                <MDBBtn color='danger' rounded size='sm' onClick={() => deleteUser(dat.id_usuario)}>
+                <MDBBtn color='danger' rounded size='sm' onClick={() => deleteUser(dat.reserva_ID)}>
                   Delete
                 </MDBBtn>
               </td>

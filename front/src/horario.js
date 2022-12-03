@@ -11,9 +11,9 @@ import {
 
 export default function Horario() {
 
-  const {users,setUsers} = useContext(UserContext)
+  const {users,setUsers,id_usuariologeado} = useContext(UserContext)
   const {rol,setRol} = useContext(RolContext)
-  console.log(users)
+  console.log(id_usuariologeado,'logeado')
   console.log(rol)
 
   const [loading, setLoading] = useState(false);
@@ -38,48 +38,6 @@ export default function Horario() {
       
     }
   }
-
-  /* const PREFIX = 'Demo';
-  
-  const classes = {
-    todayCell: `${PREFIX}-mondayell`,
-    weekendCell: `${PREFIX}-weekendCell`,
-    today: `${PREFIX}-today`,
-    weekend: `${PREFIX}-weekend`,
-  };
-
-  const StyledWeekViewTimeTableCell = styled(WeekView.TimeTableCell)(({ theme }) => ({
-    [`&.${classes.todayCell}`]: {
-      backgroundColor: alpha(theme.palette.primary.main, 0.1),
-      '&:hover': {
-        backgroundColor: alpha(theme.palette.primary.main, 0.14),
-      },
-      '&:focus': {
-        backgroundColor: alpha(theme.palette.primary.main, 0.16),
-      },
-    },
-    [`&.${classes.weekendCell}`]: {
-      backgroundColor: alpha(theme.palette.action.disabledBackground, 0.04),
-      '&:hover': {
-        backgroundColor: alpha(theme.palette.action.disabledBackground, 0.04),
-      },
-      '&:focus': {
-        backgroundColor: alpha(theme.palette.action.disabledBackground, 0.04),
-      },
-    },
-  }));
-
-  const TimeTableCell = (props) => {
-  const { startDate } = props;
-  const date = new Date(startDate);
-
-  if (date.getDate() === new Date().getDate()) {
-    return <StyledWeekViewTimeTableCell {...props} className={classes.todayCell}/>;
-  } if (date.getDay() === 0 || date.getDay() === 6) {
-    return <StyledWeekViewTimeTableCell {...props} className={classes.weekendCell} />;
-  } return <StyledWeekViewTimeTableCell {...props} />;
-};
-*/
   return (
     <Paper>
       {
