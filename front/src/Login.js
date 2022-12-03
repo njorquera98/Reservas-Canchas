@@ -1,5 +1,5 @@
 import './Login.css';
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   MDBBtn,
   MDBContainer,
@@ -12,9 +12,12 @@ import {
 }
 from 'mdb-react-ui-kit';
 import { useState } from 'react';
-import { useEffect } from 'react';
+import UserContext from './context/UserContext';
+import RolContext from './context/RolContext'
 
 export default function Login() {
+  const {users, setUsers} = useContext(UserContext)
+  const {rol, setRol} = useContext(RolContext)
   const data={
     id_usuario: '',
     contrasena: ''
@@ -48,6 +51,8 @@ export default function Login() {
         console.log('escrito',data)
         if (dat.Contrasena===data.contrasena) {
           console.log('contrasenacorrecta')
+          window.sessionStorage.setItem('users',data.id_usuario)
+          window.sessionStorage.setItem('rol',dat.Correo)
           window.location.href='/reserva'
 
         }

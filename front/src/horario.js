@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import UserContext from './context/UserContext';
+import RolContext from './context/RolContext'
 import Paper from '@mui/material/Paper';
 import {
   Scheduler,
@@ -8,6 +10,11 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui';
 
 export default function Horario() {
+
+  const {users,setUsers} = useContext(UserContext)
+  const {rol,setRol} = useContext(RolContext)
+  console.log(users)
+  console.log(rol)
 
   const [loading, setLoading] = useState(false);
   const [datos,setDatos] = useState([]);
@@ -31,6 +38,7 @@ export default function Horario() {
       
     }
   }
+
   /* const PREFIX = 'Demo';
   
   const classes = {
