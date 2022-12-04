@@ -38,6 +38,14 @@ export default function Horario() {
       
     }
   }
+
+  const TimeTableCell = React.useCallback(React.memo(({ onDoubleClick, ...restProps }) => (
+    <WeekView.TimeTableCell
+      {...restProps}
+      onDoubleClick={() => window.location.href='/reserva'}
+    />
+  )), []);
+
   return (
     <Paper>
       {
@@ -50,10 +58,10 @@ export default function Horario() {
       >
         
         <WeekView
+        timeTableCellComponent={TimeTableCell}
           startDayHour={8}
           endDayHour={21}
           excludedDays={[0]}
-          /* timeTableCellComponent={TimeTableCell} */
           
           
         />

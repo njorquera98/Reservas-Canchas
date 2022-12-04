@@ -35,21 +35,34 @@ export default function Navbar() {
                           </MDBNavbarToggler>
                           <MDBCollapse navbar>
                               <MDBNavbarNav className='justify-content-center mb-2 mb-lg-0'>
+                                {users ?
+                                <React.Fragment>
+                                <MDBNavbarItem>
+                                <MDBNavbarLink href='/reserva'>Reservar</MDBNavbarLink>
+                                </MDBNavbarItem>
+                                <MDBNavbarItem>
+                                    <MDBNavbarLink href='/horario'>Horarios</MDBNavbarLink>
+                                </MDBNavbarItem>
+                                { (rol==='administrador') ? 
+                                <MDBNavbarItem>
+                                <MDBNavbarLink href='/admin/reservas'>Administrar reservas</MDBNavbarLink>
+                                </MDBNavbarItem>
+                                :
+                                <MDBNavbarItem>
+                                <MDBNavbarLink href='/user/reservas'>Mis Reservas</MDBNavbarLink>
+                                </MDBNavbarItem>
+                                }
+                                </React.Fragment>
+                                :
+                                <React.Fragment>
                                 <MDBNavbarItem className='active'>
                                     <MDBNavbarLink aria-current='page' href='/'> Inicio</MDBNavbarLink>
                                 </MDBNavbarItem>
                                 <MDBNavbarItem>
                                     <MDBNavbarLink href='/register'>Registarse</MDBNavbarLink>
                                 </MDBNavbarItem>
-                                <MDBNavbarItem>
-                                    <MDBNavbarLink href='/reserva'>Reservar</MDBNavbarLink>
-                                </MDBNavbarItem>
-                                <MDBNavbarItem>
-                                    <MDBNavbarLink href='/horario'>Horarios</MDBNavbarLink>
-                                </MDBNavbarItem>
-                                <MDBNavbarItem>
-                                    <MDBNavbarLink href='/admin/reservas'>Administrar reservas</MDBNavbarLink>
-                                </MDBNavbarItem>
+                                </React.Fragment>
+                                }
                               </MDBNavbarNav>
                           </MDBCollapse>
                 </MDBContainer>
