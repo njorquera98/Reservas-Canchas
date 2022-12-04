@@ -1,4 +1,4 @@
-import { pool } from "../database/db.js";
+/*import { pool } from "../database/db.js";
 
 export const getReservas = async (req, res) => {
   const [rows] = await pool.query("SELECT nombre AS title,startDate,endDate FROM reservas");

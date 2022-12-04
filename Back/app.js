@@ -1,27 +1,27 @@
-/* const express = require('express');
-const mysql = require('mysql');
-const app = express();
+import express  from "express"
+import cors from 'cors'
+//importamos la conexión a la DB
+import db from "./database/db.js"
+//importamos nuestro enrutador
+import userRoutes from './routes/routes.js'
 
+const app = express()
 
-const connection = mysql.createConnection({
-    host:'localhost',
-    user:'root',
-    password:'',
-    database:'reservascanchas',
-});
+app.use(cors())
+app.use(express.json())
+app.use('/user', userRoutes)
 
-connection.connect(error =>{
-    if(error) throw error;
-    console.log('Database server running!');
-});
+try {
+    await db.authenticate()
+    console.log('Conexión exitosa a la DB')
+} catch (error) {
+    console.log(`El error de conexión es: ${error}`)
+}
 
+app.get('/', (req, res)=>{
+    res.send('HOLA MUNDO')
+}) 
 
-
-
-app.use(require('./routes'));
-
-app.listen(4000, (req, res) => {
-    console.log('Listening on port http://localhost:4000')
+app.listen(8000, ()=>{
+    console.log('Server UP running in http://localhost:8000/')
 })
-
- */
