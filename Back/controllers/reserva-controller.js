@@ -1,59 +1,61 @@
-/*import { pool } from "../database/db.js";
+import ReservaModel from "../models/ReservaModel.js";
 
-export const getReservas = async (req, res) => {
-  const [rows] = await pool.query("SELECT nombre AS title,startDate,endDate FROM reservas");
-  res.json(rows);
-};
+//Mostrar todos los usuarios 
+export const getAllReservas = async (req, res) => {
+  try {
+    const users = await ReservaModel.findAll()
+    res.json(users)
+  }
+  catch (error) {
+    res.json({ message: error.message })
+  }
+}
 
+//Mostrar un Usuario
 export const getReserva = async (req, res) => {
-  const [rows] = await pool.query("SELECT * FROM reservas WHERE idusuario = ?", [
-    req.params.id,
-  ]);
-  console.log([rows]);
-
-  if (rows.length <= 0)
-    return res.status(404).json({
-      messaje: "Employee not fund",
-    });
-
-  res.json(rows[0]);
-};
-
-export const createReserva = async (req, res) => {
-  const { idusuario,startDate,endDate,nombre,email,telefono,carrera,listaParticipantes} = req.body;
-
-  const [rows] = await pool.query(
-    "INSERT INTO reservas (idusuario,startDate,endDate,nombre,email,telefono,carrera,listaParticipantes) VALUES (?,?,?,?,?,?,?,?)",
-    [idusuario,startDate,endDate,nombre,email,telefono,carrera,listaParticipantes]
-  );
-  console.log(req.body);
-  res.send({ rows });
-};
-
-export const deleteReserva = async (req, res) => {
-  const [result] = await pool.query("DELETE FROM reservas WHERE idusuario = ?", [
-    req.params.id,
-  ]);
-  if (result.affectedRows <= 0)
-    return res.status(404).json({
-      message: "User no encontrado",
-    });
-
-  console.log(result);
-  res.sendStatus(204);
-};
-
-/* export const updateReserva = async (req,res) =>{
-    const {id} = req.params
-    const {name} = req.body
-
-    const [result] = await pool.query('UPDATE reservas SET name = IFNULL(?,NAME) WHERE id = ?',[name,id])
-
-    if (result.affectedRows==0) return res.status(404).json({
-        messaje:'User no encontrado'
+  try {
+    const user = await ReservaModel.findAll({
+      where: { id: req.params.id }
     })
+    res.json(user)
+  }
+  catch (error) {
+    res.json({ message: error.message })
+  }
+}
+//Crear un Usuario
+export const createReserva = async (req, res) => {
+  try {
+    await ReservaModel.create(req.body)
+    res.json({ "message": "Usuario Creado" })
+  }
+  catch (error) {
+    res.json({ message: error.message })
+  }
+}
 
-    const [rows] = await pool.query('SELECT * FROM usuarios WHERE id = ?',[id])
-    console.log(result)
-    res.json(rows[0])
-} */
+//Actualizar un Usuario
+export const updateReserva = async (req, res) => {
+  try {
+    await ReservaModel.update(req.body, {
+      where: { id: req.params.id }
+    })
+    res.json({ "message": "Usuario Actualizado" })
+  }
+  catch (error) {
+    res.json({ message: error.message })
+  }
+}
+
+//eliminar un Usuario
+export const deleteReserva = async (req, res) => {
+  try {
+    await ReservaModel.destroy({
+      where: { id: req.params.id }
+    })
+    res.json({ "message": "Usuario Eliminado" })
+  }
+  catch (error) {
+    res.json({ message: error.message })
+  }
+}

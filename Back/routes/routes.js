@@ -1,6 +1,6 @@
 import express from "express";
 import { getAllUsers, getUser, createUser, deleteUser, updateUser } from "../controllers/user-controller.js";
-//import { getReservas, getReserva, createReserva, deleteReserva } from "../controllers/reserva-controller.js";
+import { getAllReservas, getReserva, createReserva, deleteReserva, updateReserva } from "../controllers/reserva-controller.js";
 
 const router = express.Router();
 
@@ -14,14 +14,14 @@ router.delete("/:id",deleteUser);
 
 router.put("/:id",updateUser);
 
-//Una vez terminado el user seguir con reservas
-/*
-router.get("/reservas",getReservas);
+router.get("/reservas", getAllReservas);
 
 router.get("/reservas/:id",getReserva);
 
 router.post("/reservas",createReserva);
 
+router.put("/:id",updateReserva);
+
 router.delete("/reservas/:id",deleteReserva);
-*/
+
 export default router;
