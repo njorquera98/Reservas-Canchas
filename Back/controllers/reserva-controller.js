@@ -27,7 +27,7 @@ export const getReserva = async (req, res) => {
 export const createReserva = async (req, res) => {
   try {
     await ReservaModel.create(req.body)
-    res.json({ "message": "Usuario Creado" })
+    res.json({ "message": "Reserva Creada" })
   }
   catch (error) {
     res.json({ message: error.message })
@@ -40,7 +40,7 @@ export const updateReserva = async (req, res) => {
     await ReservaModel.update(req.body, {
       where: { id: req.params.id }
     })
-    res.json({ "message": "Usuario Actualizado" })
+    res.json({ "message": "Reserva Actualizada" })
   }
   catch (error) {
     res.json({ message: error.message })
@@ -53,7 +53,7 @@ export const deleteReserva = async (req, res) => {
     await ReservaModel.destroy({
       where: { id: req.params.id }
     })
-    res.json({ "message": "Usuario Eliminado" })
+    res.json({ "message": "Reserva Eliminada" })
   }
   catch (error) {
     res.json({ message: error.message })

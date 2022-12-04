@@ -3,6 +3,12 @@ import db from "../database/db.js"
 import { DataTypes } from "Sequelize";
 
 const ReservaModel = db.define('reservas', {
+    user_ID: {
+        type: DataTypes.INTEGER
+    },
+    cancha_ID:{
+        type: DataTypes.INTEGER
+    },    
     hora_entrada: {
         type: DataTypes.TIME
     },

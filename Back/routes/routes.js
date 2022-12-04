@@ -4,15 +4,15 @@ import { getAllReservas, getReserva, createReserva, deleteReserva, updateReserva
 
 const router = express.Router();
 
-router.get("/",getAllUsers);
+router.get("/user",getAllUsers);
 
-router.get("/:id",getUser);
+router.get("/user/:id",getUser);
 
-router.post("/",createUser);
+router.post("/user",createUser);
 
-router.delete("/:id",deleteUser);
+router.delete("/user/:id",deleteUser);
 
-router.put("/:id",updateUser);
+router.put("/user/:id",updateUser);
 
 router.get("/reservas", getAllReservas);
 
@@ -20,7 +20,7 @@ router.get("/reservas/:id",getReserva);
 
 router.post("/reservas",createReserva);
 
-router.put("/:id",updateReserva);
+router.put("/reservas/:id",updateReserva);
 
 router.delete("/reservas/:id",deleteReserva);
 
