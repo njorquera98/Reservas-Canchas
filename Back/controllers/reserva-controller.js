@@ -6,7 +6,7 @@ export const getReservas = async (req, res) => {
 };
 
 export const listarReservas = async (req, res) => {
-  const [rows] = await pool.query("SELECT u.nombre,u.apellido, reserva_ID, hora_entrada ,hora_salida FROM reserva, usuario u WHERE user_ID_FK = u.user_ID");
+  const [rows] = await pool.query("SELECT u.nombre,u.apellido, u.carrera, c.num_cancha, c.tipo_cancha, c.capacidad, reserva_ID, hora_entrada ,hora_salida FROM reserva, usuario u, cancha c WHERE user_ID_FK = u.user_ID AND c.cancha_ID=cancha_ID_FK ");
   res.json(rows);
 };
 

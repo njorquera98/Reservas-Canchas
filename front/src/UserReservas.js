@@ -2,6 +2,8 @@ import React from 'react';
 import { MDBBadge, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { Page, Text, View, Document, StyleSheet, PDFDownloadLink} from '@react-pdf/renderer';
+import ReactPDF from '@react-pdf/renderer';
 
 export default function App() {
   const [datos,setDatos] = useState([]);
@@ -29,6 +31,37 @@ export default function App() {
     })
     setButtonClick(id)
   }
+
+  // Create styles
+const styles = StyleSheet.create({
+  page: {
+    flexDirection: 'row',
+    backgroundColor: '#E4E4E4'
+  },
+  section: {
+    margin: 10,
+    padding: 10,
+    flexGrow: 1
+  }
+});
+
+// Create Document Component
+const MyDocument = () => (
+  <Document>
+    <Page size="A4" style={styles.page} >
+      <View style={styles.section}>
+        <Text>Section #1</Text>
+      </View>
+      <View style={styles.section}>
+        <Text>Section #2</Text>
+      </View>
+    </Page>
+  </Document>
+);
+
+/* ReactPDF.render(<MyDocument />, `${__dirname}/example.pdf`); */
+
+
   return (
     <MDBTable align='middle'>
       <MDBTableHead>
@@ -75,9 +108,38 @@ export default function App() {
                 </MDBBtn>
               </td>
               <td>
-                <MDBBtn color='danger' rounded size='sm' onClick={() => deleteUser(dat.reserva_ID)}>
-                  Delete
-                </MDBBtn>
+                <PDFDownloadLink document={
+                <Document>
+                    <Page size="A4" style={styles.page}>
+                      <View style={styles.section}>
+                        <View style={{display:"flex", flexDirection:"row"}}>
+                          <View style={{flex:1}}>
+                            <Text style={{textAlign:"center", marginTop:"25px"}}>AUTORIZACIÓN USO RECINTOS DEPORTIVOS</Text>
+                            <Text></Text>
+                            <View style={{margin:"15px", fontSize:"12"}}>
+                              <Text style={{marginTop:"50px"}}>Responsable: {dat.nombre} {dat.apellido}</Text>
+                              <Text style={{marginTop:"15px"}}>Carrera: {dat.carrera}</Text>
+                              <Text style={{marginTop:"15px"}}>Cancha: Cancha {dat.num_cancha}</Text>
+                              <Text style={{marginTop:"15px"}}>Tipo de cancha: {dat.tipo_cancha}</Text>
+                              <Text style={{marginTop:"15px"}}>Fecha: {dat.hora_entrada}</Text>
+                              <Text style={{marginTop:"15px"}}>Hora entrada: {dat.hora_entrada}</Text>
+                              <Text style={{marginTop:"15px"}}>Hora salida: {dat.hora_salida}</Text>
+                              <Text style={{marginTop:"15px"}}>Tarifa: Excento</Text>
+                            </View>
+                          </View>
+                        </View>
+                      </View>
+
+                      {/* <View style={styles.section}>
+                        <Text>Section #2</Text>
+                      </View> */}
+                    </Page>
+                </Document>
+                } fileName="FORM">
+                  <MDBBtn color='danger' rounded size='sm' onClick={() => 'aa'}>
+                    Imprimir
+                  </MDBBtn> 
+                </PDFDownloadLink>
               </td>
             </tr>
           )
