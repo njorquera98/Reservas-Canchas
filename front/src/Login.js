@@ -7,8 +7,7 @@ import {
   MDBCol,
   MDBCard,
   MDBCardBody,
-  MDBInput,
-  MDBCheckbox
+  MDBInput
 }
 from 'mdb-react-ui-kit';
 import { useState } from 'react';
@@ -39,14 +38,10 @@ export default function Login() {
 
   const handleSubmit = async() =>{
     setLoading(true)
-      console.log("submit",data)
       await fetch('http://localhost:4000/api/users/'+data.correo)
       .then(response => response.json())
       .then(dat =>{ 
-        console.log('resultado',dat)
-        console.log('escrito',data)
         if (dat.contrasena===data.contrasena) {
-          console.log('contrasenacorrecta')
           window.sessionStorage.setItem('users',dat.nombre)
           window.sessionStorage.setItem('id_usuariologeado',dat.user_ID)
           window.sessionStorage.setItem('rol',dat.rol)
@@ -69,10 +64,9 @@ export default function Login() {
               <h2 className="fw-bold mb-2 text-center">Inicio de Sesión</h2>
               <p className="text-white-50 mb-3">Porfavor ingrese su Usuario y Contraseña!</p>
 
-              <MDBInput wrapperClass='mb-4 w-100' label='Usuario' id='formControlLg' name="correo" type='email' size="lg" onChange={handleChange}/>
+              <MDBInput wrapperClass='mb-4 w-100' label='Email' id='formControlLg' name="correo" type='email' size="lg" onChange={handleChange}/>
               <MDBInput wrapperClass='mb-4 w-100' label='Contraseña' id='formControlLg' name="contrasena" type='password' size="lg" onChange={handleChange}/>
 
-              <MDBCheckbox name='flexCheck' id='flexCheckDefault' className='mb-4' label='Recordar Contraseña' />
 
               <MDBBtn onClick={handleSubmit} size='lg' href="#">
                 Ingresar

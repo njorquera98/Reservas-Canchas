@@ -13,8 +13,6 @@ export default function AdminHorario() {
 
   const {users,setUsers,id_usuariologeado} = useContext(UserContext)
   const {rol,setRol} = useContext(RolContext)
-  console.log(id_usuariologeado,'logeado')
-  console.log(rol)
   
 
   const [loading, setLoading] = useState(false);
@@ -22,17 +20,15 @@ export default function AdminHorario() {
 
   useEffect(() => {
       setLoading(true)
-      console.log('fetch')
       fetch('http://localhost:4000/api/reservas/')
       .then(response => response.json())
-      .then(data =>{setDatos((data));console.log(datos)});
+      .then(data =>{setDatos((data))});
       setLoading(false)
   },[])
 
   const appointments = contenidoHorario ();
   function contenidoHorario (){
     try {
-      console.log("Imprimiendo datos inmediato",datos)
       const contenidohorario = datos;
       return contenidohorario
     } catch (error) {

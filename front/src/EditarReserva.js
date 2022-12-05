@@ -33,17 +33,15 @@ export default function EditarReserva() {
   const [datosReserva,setDatosReserva] = useState([]);
   const fila=[]
   var idparametro = useParams().id
-  console.log(idparametro)
   
   useEffect(() => {
-    console.log('fetch')
     fetch('http://localhost:4000/api/users')
     .then(response => response.json())
-    .then(data =>{setDatos((data));console.log(datos)});
+    .then(data =>{setDatos((data))});
 
     fetch('http://localhost:4000/api/datosreservas/'+idparametro)
     .then(response => response.json())
-    .then(da =>{setDatosReserva((da));console.log(datosReserva,'datosreser')});
+    .then(da =>{setDatosReserva((da))});
 },[])
 
   const data={
@@ -60,7 +58,6 @@ export default function EditarReserva() {
     if (e.target.name ==='horaReserva'){
         seleccionaHoraTermino(e.target.value)
         data.hora_entrada=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+"T"+e.target.value
-        console.log(data);
     }
     if (e.target.name ==='participantes'){
       data.participantes=e.target.value
@@ -71,8 +68,6 @@ export default function EditarReserva() {
     if(e.target.name ==='dia'){
       fechaSeleccion= new Date()
       seleccion(fechaSeleccion,e.target.value)
-      console.log(fecha,'actual')
-      console.log(fechaSeleccion,'seleccionada')
     }
     if (e.target.name ==='alumnos'){
       data.user_ID_FK=e.target.value
@@ -88,7 +83,6 @@ const handleSubmit = async() =>{
     },
     body: JSON.stringify(data),
   })
-  console.log('submit');
 }
 
 function seleccionaHoraTermino(horainicio){

@@ -1,5 +1,5 @@
 import React from 'react';
-import { MDBBadge, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
+import { MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { Page, Text, View, Document, StyleSheet, PDFDownloadLink} from '@react-pdf/renderer';
@@ -10,10 +10,9 @@ export default function App() {
   const [buttonClick,setButtonClick]=useState(0);
 
   useEffect(() => {
-      console.log('fetch')
       fetch('http://localhost:4000/api/listarreservas')
       .then(response => response.json())
-      .then(data =>{setDatos((data));console.log(datos)});
+      .then(data =>{setDatos((data))});
   },[buttonClick])
   
   function deleteUser(id){
@@ -81,9 +80,6 @@ export default function App() {
                   <p className='fw-normal mb-0'>{horasalida.toLocaleTimeString()}</p>
               </td>
               <td>
-                {/* <MDBBtn color='link' rounded size='sm' href='/admin/editarreserva'>
-                  Editar
-                </MDBBtn> */}
                 <PDFDownloadLink document={
                 <Document>
                     <Page size="A4" style={styles.page}>
@@ -115,7 +111,7 @@ export default function App() {
               </td>
               <td>
                 <MDBBtn color='danger' rounded size='sm' onClick={() => deleteUser(dat.reserva_ID)}>
-                  Delete
+                  Eliminar
                 </MDBBtn>
               </td>
             </tr>

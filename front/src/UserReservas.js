@@ -10,12 +10,10 @@ export default function App() {
   const fila=[]
   const [buttonClick,setButtonClick]=useState(0);
   const {id_usuariologeado} = useContext(UserContext)
-  console.log(id_usuariologeado,'idusuario')
   useEffect(() => {
-      console.log('fetch')
       fetch('http://localhost:4000/api/listarreserva/'+id_usuariologeado)
       .then(response => response.json())
-      .then(data =>{setDatos((data));console.log(datos)});
+      .then(data =>{setDatos((data))});
   },[buttonClick])
   
   function deleteUser(id){
@@ -87,7 +85,7 @@ const styles = StyleSheet.create({
               </td>
               <td>
                 <MDBBtn color='danger' rounded size='sm' onClick={() => deleteUser(dat.reserva_ID)}>
-                  Delete
+                  Eliminar
                 </MDBBtn>
               </td>
               <td>

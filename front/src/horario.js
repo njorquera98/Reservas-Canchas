@@ -16,12 +16,8 @@ export default function Horario() {
   const {rol,setRol} = useContext(RolContext)
   var idparametro = useParams().id
   if (idparametro === '0' | idparametro > '6' | idparametro==='') {
-    console.log('iff')
     idparametro ='1'
   }
-  console.log(id_usuariologeado,'logeado')
-  console.log(rol)
-  console.log(idparametro,'parametros')
   
 
   const [loading, setLoading] = useState(false);
@@ -29,17 +25,15 @@ export default function Horario() {
 
   useEffect(() => {
       setLoading(true)
-      console.log('fetch')
       fetch('http://localhost:4000/api/reservas/'+idparametro)
       .then(response => response.json())
-      .then(data =>{setDatos((data));console.log(datos)});
+      .then(data =>{setDatos((data))});
       setLoading(false)
   },[])
 
   const appointments = contenidoHorario ();
   function contenidoHorario (){
     try {
-      console.log("Imprimiendo datos inmediato",datos)
       const contenidohorario = datos;
       return contenidohorario
     } catch (error) {

@@ -15,13 +15,12 @@ code {
 header {
   padding: 0px 50px 0px 50px;
   background-color:rgb(175, 231, 245);
-  min-height: 10vh;  /* default 100vh  */
+  min-height: 10vh;
   display: grid;
   grid-template-columns: 30% 40% 30%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* font-size: calc(10px + 2vmin); */
 }
 
 .uta{

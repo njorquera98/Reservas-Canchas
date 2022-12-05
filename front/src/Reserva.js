@@ -32,10 +32,9 @@ export default function Reserva() {
   const fila=[]
   
   useEffect(() => {
-    console.log('fetch')
     fetch('http://localhost:4000/api/users')
     .then(response => response.json())
-    .then(data =>{setDatos((data));console.log(datos)});
+    .then(data =>{setDatos((data))});
 },[])
 
   const data={
@@ -52,7 +51,6 @@ export default function Reserva() {
     if (e.target.name ==='horaReserva'){
         seleccionaHoraTermino(e.target.value)
         data.hora_entrada=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+"T"+e.target.value
-        console.log(data);
     }
     if (e.target.name ==='participantes'){
       data.participantes=e.target.value
@@ -63,8 +61,6 @@ export default function Reserva() {
     if(e.target.name ==='dia'){
       fechaSeleccion= new Date()
       seleccion(fechaSeleccion,e.target.value)
-      console.log(fecha,'actual')
-      console.log(fechaSeleccion,'seleccionada')
     }
     if (e.target.name ==='alumnos'){
       data.user_ID_FK=e.target.value
@@ -80,7 +76,6 @@ const handleSubmit = async() =>{
     },
     body: JSON.stringify(data),
   })
-  console.log('submit');
 }
 
 function seleccionaHoraTermino(horainicio){

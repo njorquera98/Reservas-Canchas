@@ -22,7 +22,6 @@ import {
 export default function Navbar() {
         const {users,setUsers} = useContext(UserContext)
         const {rol,setRol} = useContext(RolContext)
-        console.log(rol)
         return(
             <React.Fragment>
                 <MDBNavbar expand='lg' light style={{ backgroundColor: '#e3f2fd' }}>
