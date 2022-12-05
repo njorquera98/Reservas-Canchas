@@ -1,26 +1,22 @@
 import React from 'react';
 import { MDBBadge, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
-import { useEffect } from 'react';
+import { useEffect, useContext} from 'react';
 import { useState } from 'react';
 import { Page, Text, View, Document, StyleSheet, PDFDownloadLink} from '@react-pdf/renderer';
-import ReactPDF from '@react-pdf/renderer';
+import UserContext from './context/UserContext'
 
 export default function App() {
   const [datos,setDatos] = useState([]);
   const fila=[]
   const [buttonClick,setButtonClick]=useState(0);
-
+  const {id_usuariologeado} = useContext(UserContext)
+  console.log(id_usuariologeado,'idusuario')
   useEffect(() => {
       console.log('fetch')
-      fetch('http://localhost:4000/api/listarreservas')
+      fetch('http://localhost:4000/api/listarreserva/'+id_usuariologeado)
       .then(response => response.json())
       .then(data =>{setDatos((data));console.log(datos)});
   },[buttonClick])
-
-  function refresh(){fetch('http://localhost:4000/api/users')
-      .then(response => response.json())
-      .then(data =>{setDatos((data));console.log(datos)});
-      }
   
   function deleteUser(id){
     fetch('http://localhost:4000/api/reservas/'+id, {
@@ -45,21 +41,6 @@ const styles = StyleSheet.create({
   }
 });
 
-// Create Document Component
-const MyDocument = () => (
-  <Document>
-    <Page size="A4" style={styles.page} >
-      <View style={styles.section}>
-        <Text>Section #1</Text>
-      </View>
-      <View style={styles.section}>
-        <Text>Section #2</Text>
-      </View>
-    </Page>
-  </Document>
-);
-
-/* ReactPDF.render(<MyDocument />, `${__dirname}/example.pdf`); */
 
 
   return (
@@ -67,6 +48,7 @@ const MyDocument = () => (
       <MDBTableHead>
         <tr>
           <th scope='col'>Nombre</th>
+          <th scope='col'>Cancha</th>
           <th scope='col'>Fecha</th>
           <th scope='col'>Hora entrada</th>
           <th scope='col'>Hora salida</th>
@@ -76,32 +58,33 @@ const MyDocument = () => (
       </MDBTableHead>
       <MDBTableBody>
         {datos.forEach((dat) => {
+          const horaentrada = new Date(dat.hora_entrada)
+          const horasalida = new Date(dat.hora_salida)
           fila.push(
             <tr>
               <td>
                 <div className='d-flex align-items-center'>
-                  <img
-                    src='https://mdbootstrap.com/img/new/avatars/7.jpg'
-                    alt=''
-                    style={{ width: '45px', height: '45px' }}
-                    className='rounded-circle'
-                  />
-                  <div className='ms-3'>
+                <i class="fas fa-file-alt fa-2x"></i>
+                <div className='ms-3'>
                     <p className='fw-bold mb-1'>{dat.nombre}</p>
                     <p className='text-muted mb-0'>{dat.apellido}</p>
-                  </div>
+                </div>
                 </div>
               </td>
               <td>
-                <p className='fw-normal mb-1'>{dat.hora_entrada}</p>
-                <p className='text-muted mb-0'>{dat.hora_salida}</p>
+                <div className='ms-0 align-items-center'>
+                    <p className='text-muted mb-0'>Cancha {dat.tipo_cancha}: {dat.num_cancha}</p>
+                </div>
               </td>
               <td>
-                <MDBBadge color='warning' pill>
-                  Awaiting
-                </MDBBadge>
+                <p className='fw-normal mb-0'>{horaentrada.toLocaleDateString('cl-CL')}</p>
               </td>
-              <td>Senior</td>
+              <td>
+                <p className='fw-normal mb-0'>{horaentrada.toLocaleTimeString()}</p>
+              </td>
+              <td>
+                  <p className='fw-normal mb-0'>{horasalida.toLocaleTimeString()}</p>
+              </td>
               <td>
                 <MDBBtn color='danger' rounded size='sm' onClick={() => deleteUser(dat.reserva_ID)}>
                   Delete
@@ -121,22 +104,18 @@ const MyDocument = () => (
                               <Text style={{marginTop:"15px"}}>Carrera: {dat.carrera}</Text>
                               <Text style={{marginTop:"15px"}}>Cancha: Cancha {dat.num_cancha}</Text>
                               <Text style={{marginTop:"15px"}}>Tipo de cancha: {dat.tipo_cancha}</Text>
-                              <Text style={{marginTop:"15px"}}>Fecha: {dat.hora_entrada}</Text>
-                              <Text style={{marginTop:"15px"}}>Hora entrada: {dat.hora_entrada}</Text>
-                              <Text style={{marginTop:"15px"}}>Hora salida: {dat.hora_salida}</Text>
+                              <Text style={{marginTop:"15px"}}>Fecha: {horaentrada.toLocaleDateString('cl-CL')}</Text>
+                              <Text style={{marginTop:"15px"}}>Hora entrada: {horaentrada.toLocaleTimeString()}</Text>
+                              <Text style={{marginTop:"15px"}}>Hora salida: {horasalida.toLocaleTimeString()}</Text>
                               <Text style={{marginTop:"15px"}}>Tarifa: Excento</Text>
                             </View>
                           </View>
                         </View>
                       </View>
-
-                      {/* <View style={styles.section}>
-                        <Text>Section #2</Text>
-                      </View> */}
                     </Page>
                 </Document>
-                } fileName="FORM">
-                  <MDBBtn color='danger' rounded size='sm' onClick={() => 'aa'}>
+                } fileName="Autorizacion">
+                  <MDBBtn color='primary' rounded size='sm' onClick={() => 'aa'}>
                     Imprimir
                   </MDBBtn> 
                 </PDFDownloadLink>

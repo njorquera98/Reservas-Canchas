@@ -8,20 +8,13 @@ import {
   Appointments,
   AllDayPanel,
 } from '@devexpress/dx-react-scheduler-material-ui';
-import { useParams } from 'react-router-dom';
 
-export default function Horario() {
+export default function AdminHorario() {
 
   const {users,setUsers,id_usuariologeado} = useContext(UserContext)
   const {rol,setRol} = useContext(RolContext)
-  var idparametro = useParams().id
-  if (idparametro === '0' | idparametro > '6' | idparametro==='') {
-    console.log('iff')
-    idparametro ='1'
-  }
   console.log(id_usuariologeado,'logeado')
   console.log(rol)
-  console.log(idparametro,'parametros')
   
 
   const [loading, setLoading] = useState(false);
@@ -30,7 +23,7 @@ export default function Horario() {
   useEffect(() => {
       setLoading(true)
       console.log('fetch')
-      fetch('http://localhost:4000/api/reservas/'+idparametro)
+      fetch('http://localhost:4000/api/reservas/')
       .then(response => response.json())
       .then(data =>{setDatos((data));console.log(datos)});
       setLoading(false)
@@ -64,7 +57,7 @@ export default function Horario() {
         firstDayOfWeek={1}
         locale={'es-ES'}
       >
-        <h2 style={{margin:'50px 0px 40px 0px',textAlign:'center'}}>Horario Cancha de Tenis {idparametro}</h2>
+        <h2 style={{margin:'50px 0px 40px 0px',textAlign:'center'}}>Horario Cancha de Tenis </h2>
         <WeekView
         timeTableCellComponent={TimeTableCell}
           startDayHour={8}

@@ -1,4 +1,5 @@
-import React from 'react';
+import './Reserva.css';
+import React, {useEffect, useState} from 'react';
 import {
   MDBBtn,
   MDBContainer,
@@ -6,48 +7,68 @@ import {
   MDBCol,
   MDBCard,
   MDBCardBody,
-  MDBInput,
 }
   from 'mdb-react-ui-kit';
 import Form from 'react-bootstrap/Form';
+import UserContext from './context/UserContext';
+import RolContext from './context/RolContext';
+import { useContext } from 'react';
 
-export default function EditarReserva() {
+const fecha = new Date();
+var fechaSeleccion = new Date();
+
+function seleccion(fechaSeleccion,dia){
+  
+  while (fechaSeleccion.getDay().toString()!==dia) {
+    fechaSeleccion.setDate(fechaSeleccion.getDate()+1)
+  }
+}
+
+
+export default function Reserva() {
+  const {id_usuariologeado} = useContext(UserContext)
+  const {rol,setRol} = useContext(RolContext)
+  const [datos,setDatos] = useState([]);
+  const fila=[]
+  
+  useEffect(() => {
+    console.log('fetch')
+    fetch('http://localhost:4000/api/users')
+    .then(response => response.json())
+    .then(data =>{setDatos((data));console.log(datos)});
+},[])
+
   const data={
-    "idusuario":"",
-    "startDate":"",
-    "endDate":"",
-    "nombre":"",
-    "email":"",
-    "telefono":0,
-    "carrera":"",
-    "listaParticipantes":""
+    "user_ID_FK":id_usuariologeado,
+    "cancha_ID_FK":"",
+    "hora_entrada":"",
+    "hora_salida":"",
+    "fecha":fecha.toISOString(),
+    "participantes":""
   }
 
-  /* const fecha = new Date();
-  const hoy = fecha.toISOString(); */
 
   const handleChange = e => {
     if (e.target.name ==='horaReserva'){
         seleccionaHoraTermino(e.target.value)
-        data.startDate="2022-11-24T"+e.target.value
+        data.hora_entrada=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+"T"+e.target.value
         console.log(data);
     }
-    if (e.target.name ==='nombre'){
-        data.idusuario=e.target.value
-        data.nombre=e.target.value
+    if (e.target.name ==='participantes'){
+      data.participantes=e.target.value
     }
-    if (e.target.name ==='correo'){
-        data.email=e.target.value
+    if (e.target.name ==='cancha'){
+      data.cancha_ID_FK=e.target.value
     }
-    if (e.target.name ==='telefono'){
-      data.telefono=e.target.value
+    if(e.target.name ==='dia'){
+      fechaSeleccion= new Date()
+      seleccion(fechaSeleccion,e.target.value)
+      console.log(fecha,'actual')
+      console.log(fechaSeleccion,'seleccionada')
     }
-    if (e.target.name ==='carrera'){
-        data.carrera=e.target.value
+    if (e.target.name ==='alumnos'){
+      data.user_ID_FK=e.target.value
     }
-    if (e.target.name ==='listaParticipantes'){
-      data.listaParticipantes=e.target.value
-  }
 
 }
 
@@ -65,14 +86,14 @@ const handleSubmit = async() =>{
 function seleccionaHoraTermino(horainicio){
   // eslint-disable-next-line default-case
   switch(horainicio){
-    case '08:00': data.endDate='2022-11-24T09:30'; break;
-    case '09:40': data.endDate='2022-11-24T11:10'; break;
-    case "11:20": data.endDate='2022-11-24T12:50'; break;
-    case "13:00": data.endDate='2022-11-24T14:30'; break;
-    case "14:45": data.endDate='2022-11-24T16:15'; break;
-    case "16:20": data.endDate='2022-11-24T15:50'; break;
-    case "17:55": data.endDate='2022-11-24T19:25'; break;
-    case "19:30": data.endDate='2022-11-24T21:00'; break;
+    case '08:00': data.hora_salida=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T09:30'; break;
+    case '09:40': data.hora_salida=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T11:10'; break;
+    case "11:20": data.hora_salida=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T12:50'; break;
+    case "13:00": data.hora_salida=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T14:30'; break;
+    case "14:45": data.hora_salida=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T16:15'; break;
+    case "16:20": data.hora_salida=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T15:50'; break;
+    case "17:55": data.hora_salida=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T19:25'; break;
+    case "19:30": data.hora_salida=fechaSeleccion.getFullYear()+"-"+(fechaSeleccion.getMonth()+1)+"-"+fechaSeleccion.getDate()+'T21:00'; break;
   }
 
 }
@@ -83,23 +104,55 @@ function seleccionaHoraTermino(horainicio){
           <MDBCard className='bg-white my-5 mx-auto' style={{ borderRadius: '1rem', maxWidth: '500px' }}>
             <MDBCardBody className='p-5 w-100 d-flex flex-column'>
 
-              <h2 className="fw-bold mb-4 text-center">Editar Reserva</h2>
+              <h2 className="fw-bold mb-4 text-center">Reservar Cancha</h2>
+
+              { (rol==='administrador') ?
+                <Form.Group className="mb-3">
+                <Form.Label>Seleccione Alumno</Form.Label>
+                <Form.Select name="alumnos" onChange={handleChange} defaultValue={""}>
+                <option value="" disabled></option>
+                  {datos.forEach((dat) => {
+                    fila.push(
+                      <option value={dat.user_ID}>{dat.nombre} {dat.apellido}</option>
+                    )
+                  })}
+                  {fila}
+                </Form.Select>
+              </Form.Group>
+              :
+              <p></p>
+              }
 
               <Form.Group className="mb-3">
                 <Form.Label>Seleccione Cancha</Form.Label>
-                <Form.Select name="cancha">
-                  <option value="cancha1">Cancha 1</option>
-                  <option value="cancha2">Cancha 2</option>
-                  <option value="cancha3">Cancha 3</option>
-                  <option value="cancha4">Cancha 4</option>
-                  <option value="cancha5">Cancha 5</option>
-                  <option value="cancha6">Cancha 6</option>
+                <Form.Select name="cancha" onChange={handleChange} defaultValue={""}>
+                <option value="" disabled></option>
+                  <option value="1">Cancha 1</option>
+                  <option value="2">Cancha 2</option>
+                  <option value="3">Cancha 3</option>
+                  <option value="4">Cancha 4</option>
+                  <option value="5">Cancha 5</option>
+                  <option value="6">Cancha 6</option>
+                </Form.Select>
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Label>Seleccione Dia</Form.Label>
+                <Form.Select name="dia" onChange={handleChange} defaultValue={""}>
+                  <option value="" disabled></option>
+                  <option value="1">Lunes</option>
+                  <option value="2">Martes</option>
+                  <option value="3">Miercoles</option>
+                  <option value="4">Jueves</option>
+                  <option value="5">Viernes</option>
+                  <option value="6">Sabado</option>
                 </Form.Select>
               </Form.Group>
 
               <Form.Group className="mb-3">
                 <Form.Label>Seleccione Horario</Form.Label>
-                <Form.Select name="horaReserva" onChange={handleChange} defaultValue='09:40'>
+                <Form.Select name="horaReserva" onChange={handleChange} defaultValue={""}>
+                <option value="" disabled></option>
                   <option value="08:00">08:00 - 09:30</option>
                   <option value="09:40">09:40 - 11:10</option>
                   <option value="11:20">11:20 - 12:50</option>
@@ -111,16 +164,12 @@ function seleccionaHoraTermino(horainicio){
                 </Form.Select>
               </Form.Group>
 
-              <MDBInput wrapperClass='mb-4 w-100' label='Nombre' id='formControlLg' name="nombre" type='text' size="lg" onChange={handleChange} value='nombre' disabled/>
-              <MDBInput wrapperClass='mb-4 w-100' label='Email' id='formControlLg' name="correo" type='email' size="lg" onChange={handleChange} value='apellido' disabled/>
-              <MDBInput wrapperClass='mb-4 w-100' label='Telefono' id='formControlLg' name="telefono" type='email' size="lg" onChange={handleChange} value='tel' disabled/>
-              <MDBInput wrapperClass='mb-4 w-100' label='Carrera' id='formControlLg' name="carrera" type='email' size="lg" onChange={handleChange} value='email' disabled/>
               <Form.Group className="mb-3">
               <Form.Label>Lista de Participantes</Form.Label>
-              <Form.Control as="textarea" aria-label="With textarea" name="listaParticipantes" wrapperClass='mb-6 w-100' onChange={handleChange} value='aaa'/>
+              <Form.Control as="textarea" aria-label="With textarea" name="participantes" wrapperClass='mb-6 w-100' onChange={handleChange}/>
               </Form.Group>
 
-              <MDBBtn size='lg' onClick={handleSubmit} href="/horario">
+              <MDBBtn size='lg' onClick={handleSubmit} href="/horario/1">
                 Ingresar
               </MDBBtn>
             </MDBCardBody>

@@ -11,7 +11,11 @@ import {
     MDBNavbarLink,
     MDBNavbarToggler,
     MDBNavbarBrand,
-    MDBCollapse
+    MDBCollapse,
+    MDBDropdown,
+    MDBDropdownToggle,
+    MDBDropdownMenu,
+    MDBDropdownItem
   } from 'mdb-react-ui-kit';
   
 
@@ -41,7 +45,24 @@ export default function Navbar() {
                                 <MDBNavbarLink href='/reserva'>Reservar</MDBNavbarLink>
                                 </MDBNavbarItem>
                                 <MDBNavbarItem>
-                                    <MDBNavbarLink href='/horario'>Horarios</MDBNavbarLink>
+                                <MDBDropdown>
+                                    <MDBDropdownToggle tag='a' className='nav-link' role='button'>
+                                        Horarios
+                                    </MDBDropdownToggle>
+                                    <MDBDropdownMenu>
+                                        {(rol==='administrador') ? 
+                                        <MDBDropdownItem link href='/admin/horario'>Todas las canchas</MDBDropdownItem>
+                                        :
+                                        <p></p>
+                                        }
+                                        <MDBDropdownItem link href='/horario/1'>Cancha de Tenis 1</MDBDropdownItem>
+                                        <MDBDropdownItem link href='/horario/2'>Cancha de Tenis 2</MDBDropdownItem>
+                                        <MDBDropdownItem link href='/horario/3'>Cancha de Tenis 3</MDBDropdownItem>
+                                        <MDBDropdownItem link href='/horario/4'>Cancha de Tenis 4</MDBDropdownItem>
+                                        <MDBDropdownItem link href='/horario/5'>Cancha de Tenis 5</MDBDropdownItem>
+                                        <MDBDropdownItem link href='/horario/6'>Cancha de Tenis 6</MDBDropdownItem>
+                                    </MDBDropdownMenu>
+                                </MDBDropdown>
                                 </MDBNavbarItem>
                                 { (rol==='administrador') ? 
                                 <MDBNavbarItem>

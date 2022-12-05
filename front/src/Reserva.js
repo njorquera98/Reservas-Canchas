@@ -1,5 +1,5 @@
 import './Reserva.css';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   MDBBtn,
   MDBContainer,
@@ -11,6 +11,7 @@ import {
   from 'mdb-react-ui-kit';
 import Form from 'react-bootstrap/Form';
 import UserContext from './context/UserContext';
+import RolContext from './context/RolContext';
 import { useContext } from 'react';
 
 const fecha = new Date();
@@ -26,6 +27,16 @@ function seleccion(fechaSeleccion,dia){
 
 export default function Reserva() {
   const {id_usuariologeado} = useContext(UserContext)
+  const {rol,setRol} = useContext(RolContext)
+  const [datos,setDatos] = useState([]);
+  const fila=[]
+  
+  useEffect(() => {
+    console.log('fetch')
+    fetch('http://localhost:4000/api/users')
+    .then(response => response.json())
+    .then(data =>{setDatos((data));console.log(datos)});
+},[])
 
   const data={
     "user_ID_FK":id_usuariologeado,
@@ -54,6 +65,9 @@ export default function Reserva() {
       seleccion(fechaSeleccion,e.target.value)
       console.log(fecha,'actual')
       console.log(fechaSeleccion,'seleccionada')
+    }
+    if (e.target.name ==='alumnos'){
+      data.user_ID_FK=e.target.value
     }
 
 }
@@ -91,6 +105,23 @@ function seleccionaHoraTermino(horainicio){
             <MDBCardBody className='p-5 w-100 d-flex flex-column'>
 
               <h2 className="fw-bold mb-4 text-center">Reservar Cancha</h2>
+
+              { (rol==='administrador') ?
+                <Form.Group className="mb-3">
+                <Form.Label>Seleccione Alumno</Form.Label>
+                <Form.Select name="alumnos" onChange={handleChange} defaultValue={""}>
+                <option value="" disabled></option>
+                  {datos.forEach((dat) => {
+                    fila.push(
+                      <option value={dat.user_ID}>{dat.nombre} {dat.apellido}</option>
+                    )
+                  })}
+                  {fila}
+                </Form.Select>
+              </Form.Group>
+              :
+              <p></p>
+              }
 
               <Form.Group className="mb-3">
                 <Form.Label>Seleccione Cancha</Form.Label>
@@ -138,7 +169,7 @@ function seleccionaHoraTermino(horainicio){
               <Form.Control as="textarea" aria-label="With textarea" name="participantes" wrapperClass='mb-6 w-100' onChange={handleChange}/>
               </Form.Group>
 
-              <MDBBtn size='lg' onClick={handleSubmit} href="/horario">
+              <MDBBtn size='lg' onClick={handleSubmit} href="/horario/1">
                 Ingresar
               </MDBBtn>
             </MDBCardBody>

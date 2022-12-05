@@ -50,7 +50,7 @@ export default function Login() {
           window.sessionStorage.setItem('users',dat.nombre)
           window.sessionStorage.setItem('id_usuariologeado',dat.user_ID)
           window.sessionStorage.setItem('rol',dat.rol)
-          window.location.href='/reserva'
+          window.location.href='/horario/1'
 
         }
         else{
