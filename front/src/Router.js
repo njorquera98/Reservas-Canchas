@@ -21,7 +21,7 @@ class Router extends Component{
                     <Route path='/user/reservas' element={<UserReservas/>}></Route>
                     <Route path="/admin/horario" element={<AdminHorario/>}></Route>
                     <Route path='/admin/reservas' element={<AdminReservas/>}></Route>
-                    <Route path='/admin/editarreserva' element={<EditarReserva/>}></Route>
+                    <Route path='/admin/editarreserva/:id' element={<EditarReserva/>}></Route>
                 </Routes>
             </BrowserRouter>
         );

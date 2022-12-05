@@ -16,6 +16,17 @@ export const getReserva = async (req, res) => {
 
   res.json(rows);
 };
+export const getDatosReserva = async (req, res) => {
+  const [rows] = await pool.query("SELECT * FROM reserva WHERE reserva_ID = ?", [
+    req.params.id,
+  ]);
+  console.log([rows]);
+
+  if (rows.length <= 0)
+    return res.status(404).json([]);
+
+  res.json(rows);
+};
 
 export const listarReservas = async (req, res) => {
   const [rows] = await pool.query("SELECT u.nombre,u.apellido, u.carrera, c.num_cancha, c.tipo_cancha, c.capacidad, reserva_ID, hora_entrada ,hora_salida FROM reserva, usuario u, cancha c WHERE user_ID_FK = u.user_ID AND c.cancha_ID=cancha_ID_FK ORDER BY u.user_ID,cancha_ID_FK ASC");
@@ -57,14 +68,15 @@ export const deleteReserva = async (req, res) => {
 export const updateReserva = async (req,res) =>{
     const {id} = req.params
     const {name} = req.body
+    const { user_ID_FK, cancha_ID_FK, hora_entrada, hora_salida, fecha, participantes} = req.body;
 
-    const [result] = await pool.query('UPDATE reserva SET name = IFNULL(?,NAME) WHERE id = ?',[name,id])
+    const [result] = await pool.query('UPDATE reserva SET cancha_ID_FK= IFNULL(?,cancha_ID_FK), hora_entrada=IFNULL(?,hora_entrada), hora_salida=IFNULL(?,hora_salida), fecha=IFNULL(?,fecha), participantes=IFNULL(?,participantes) WHERE reserva_ID = ?',[cancha_ID_FK, hora_entrada, hora_salida, fecha, participantes,id])
 
     if (result.affectedRows==0) return res.status(404).json({
         messaje:'User no encontrado'
     })
 
-    /* const [rows] = await pool.query('SELECT * FROM usuarios WHERE id = ?',[id])
+    const [rows] = await pool.query('SELECT * FROM reserva WHERE reserva_ID = ?',[id])
     console.log(result)
-    res.json(rows[0]) */
+    res.json(rows[0])
 }

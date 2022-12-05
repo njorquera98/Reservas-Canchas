@@ -13,6 +13,7 @@ import Form from 'react-bootstrap/Form';
 import UserContext from './context/UserContext';
 import RolContext from './context/RolContext';
 import { useContext } from 'react';
+import { useParams } from 'react-router-dom';
 
 const fecha = new Date();
 var fechaSeleccion = new Date();
@@ -25,26 +26,33 @@ function seleccion(fechaSeleccion,dia){
 }
 
 
-export default function Reserva() {
+export default function EditarReserva() {
   const {id_usuariologeado} = useContext(UserContext)
   const {rol,setRol} = useContext(RolContext)
   const [datos,setDatos] = useState([]);
+  const [datosReserva,setDatosReserva] = useState([]);
   const fila=[]
+  var idparametro = useParams().id
+  console.log(idparametro)
   
   useEffect(() => {
     console.log('fetch')
     fetch('http://localhost:4000/api/users')
     .then(response => response.json())
     .then(data =>{setDatos((data));console.log(datos)});
+
+    fetch('http://localhost:4000/api/datosreservas/'+idparametro)
+    .then(response => response.json())
+    .then(da =>{setDatosReserva((da));console.log(datosReserva,'datosreser')});
 },[])
 
   const data={
-    "user_ID_FK":id_usuariologeado,
-    "cancha_ID_FK":"",
-    "hora_entrada":"",
-    "hora_salida":"",
-    "fecha":fecha.toISOString(),
-    "participantes":""
+    "user_ID_FK":datosReserva.user_ID_FK,
+    "cancha_ID_FK":datosReserva.cancha_ID_FK,
+    "hora_entrada":datosReserva.hora_entrada,
+    "hora_salida":datosReserva.hora_salida,
+    "fecha":datosReserva.fecha,
+    "participantes":datosReserva.participantes
   }
 
 
